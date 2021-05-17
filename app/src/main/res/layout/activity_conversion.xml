@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.macv.currencyconverter.viewmodel.ConversionViewModel" />
+
+        <variable
+            name="clickHandler"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.activity.ConversionActivity">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutCurrency"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_small"
+            android:hint="@string/hint_enter_amount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editCurrency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="@={viewModel.amount}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutSelectCurrency"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:hint="@string/hint_select_currency"
+            android:onClick="@{clickHandler::onClick}"
+            app:layout_constraintEnd_toEndOf="@+id/inputLayoutCurrency"
+            app:layout_constraintStart_toStartOf="@+id/inputLayoutCurrency"
+            app:layout_constraintTop_toBottomOf="@+id/inputLayoutCurrency">
+
+            <AutoCompleteTextView
+                android:id="@+id/txtCurrency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:text="@={viewModel.selectedCurrency}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConversion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:onClick="@{clickHandler::onClick}"
+            android:text="@string/get_conversation_rate"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="@+id/inputLayoutSelectCurrency"
+            app:layout_constraintStart_toStartOf="@+id/inputLayoutSelectCurrency"
+            app:layout_constraintTop_toBottomOf="@+id/inputLayoutSelectCurrency" />
+
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_currency_rate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnConversion"
+            app:showUnlessGone="@{!viewModel.showShimmer}">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+
+                <include layout="@layout/item_placeholder" />
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_currency_rate"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnConversion"
+            app:showUnlessGone="@{viewModel.showShimmer}"
+            tools:listitem="@layout/item_conversion_rate" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
